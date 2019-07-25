@@ -1,0 +1,19 @@
+<!-- <div class="container">
+  <input type="text" [(ngModel)]="username">
+  <input type="text" [(ngModel)]="password">
+  <button (click)="login()">save</button>
+  <button (click)="logout()">logout</button>
+</!-->
+<div class="login-page">
+  <div class="form">
+    <form class="login-form">
+      <input type="text" [(ngModel)]="username" placeholder="username" />
+      <input type="password" [(ngModel)]="password" placeholder="password" />
+      <button (click)="login()">login</button>
+      <p class="message">Not registered? <a href="#">Create an account</a></p>
+    </form>
+  </div>
+</div>
+
+
+<app-loader [loader]="isLoading"></app-loader>
