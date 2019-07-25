@@ -24,10 +24,18 @@ export class DataCollectionService {
     });
   }
 
+  Getstoredetail() {
+    let authKey = 'Token ' + localStorage.getItem('userToken');
+    return this.http.get('http://testapi.halanx.com/stores/', {
+      headers: new HttpHeaders().set('Authorization', authKey)
+    });
+  }
+
   // GET for dashboard data
-  StoreDashboardVisitsplot() {
+  StoreDashboardVisitsplot(query) {
+
     const authKey = 'Token ' + localStorage.getItem('userToken');
-    return this.http.get('http://testapi.halanx.com/stores/dashboard/plots/?visits=true&from_date=2019-01-01&to_date=2019-05-01', {
+    return this.http.get('http://testapi.halanx.com/stores/dashboard/plots/?visits=true&' + query, {
       headers: new HttpHeaders().set('Authorization', authKey)
     });
   }

@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import {
   MatAutocompleteModule,
@@ -82,6 +83,7 @@ import { PlatformModule } from '@angular/cdk/platform';
     ScrollDispatchModule,
     CdkStepperModule,
     CdkTableModule,
+    ChartsModule,
 
     // Material
     MatAutocompleteModule,

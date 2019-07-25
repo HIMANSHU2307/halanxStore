@@ -1,0 +1,26 @@
+._header {
+  margin: 10px;
+  color: #4d4d4d;
+}
+
+.card {
+  text-align: center;
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.card-4 {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.matAction {
+  color:#4d4d4d;
+  float: right;
+  cursor: pointer;
+  padding-right: 5px;
+}
+

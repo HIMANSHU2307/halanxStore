@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+.Btn {
+  border: 1px solid #c2184b;
+  background: #c2184b;
+  box-shadow: none;
+  border-width: 1px;
+  padding: 5px 5px 5px 5px;
+  font-size: 14px;
+  color: #ffffff;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  cursor: pointer;
+  min-width: 150px;
+  font-weight: 500;
+}
+
+.Btn:hover {
+  border: 1px solid #c2184b;
+  color: #c2184b !important;
+  background: #ffffff;
+}
+
+.BtnClose {
+  border: 1px solid gray;
+  background: gray;
+  box-shadow: none;
+  border-width: 1px;
+  padding: 5px 5px 5px 5px;
+  font-size: 14px;
+  color: #ffffff;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  cursor: pointer;
+  min-width: 150px;
+  font-weight: 500;
+}
+
+.BtnClose:hover {
+  border: 1px solid gray;
+  color: gray !important;
+  background: #ffffff;
+}

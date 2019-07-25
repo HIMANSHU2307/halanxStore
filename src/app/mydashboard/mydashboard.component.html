@@ -1,5 +1,124 @@
 <app-header></app-header>
-<p>
-  mydashboard works!
-</p>
+<div class="container-fluid">
+  <!-- <div class="row _header">
+    <div class="col-12">
+      <h4 class="text-center">Welcome To Halanx Store's Dashboard</h4>
+    </div>
+  </div>
+  <hr> -->
+  <br>
+  <div *ngIf="showStoreDetails" class="row" style="text-align: center">
+    <div class="col-12">
+      <div class="text-center">
+        <img style="height: 50px; width:50px;" [src]="shopDetails.store_logo_url" alt="">
+      </div>
+      <div class="col-12">
+        <h4 style="color: #c2184b">{{shopDetails.name}}</h4>
+      </div>
+      <div class="col-12">
+        <span>{{shopDetails.place.street_address}}, {{shopDetails.place.state}}</span><br>
+        <span>{{shopDetails.category}} &bull; {{shopDetails.categories_available}}</span>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="timeDetails" class="row">
+    <div class="col-6">
+      <div class="card card-4">
+        <h6 class="text-center _header">My Store Time</h6>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color: #c2184b">Weekday</th>
+              <th scope="col" style="color: #c2184b">Opening Time</th>
+              <th scope="col" style="color: #c2184b">Clossing Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of openingHours">
+              <td>{{data.weekday}}</td>
+              <td>{{data.from_hour}}</td>
+              <td>{{data.to_hour}}<mat-icon class="matAction" (click)="edittime(data)"
+                matTooltip="View Advertisement" matTooltipClass="matTooltip"
+                data-toggle="modal" data-target="#editTime" data-backdrop="static"
+                data-keyboard="false">edit</mat-icon></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card card-4">
+        <h6 class="text-center _header">Store Dashboard Visits plot</h6>
+      <div class="row" style="padding: 5px;">
+        <div class="col-5">
+          <label for="BirthDate">From Date<span style="font-size: 12px; color:red">*</span></label>
+          <input type="date" id="BirthDate" class="form-control" name="trip-start" value="2019-01-01" min="1950-01-01" #fromDate>
+        </div>
+        <div class="col-5">
+          <label for="BirthDate">To Date<span style="font-size: 12px; color:red">*</span></label>
+          <input type="date" id="BirthDate" class="form-control" name="trip-start" value="2019-05-01" min="1950-01-01" #toDate>
+        </div>
+        <div class="col-2">
+          <mat-icon (click)="searchVisitdata(fromDate, toDate)">search</mat-icon>
+        </div>
+      </div>
+      <div class="row" *ngIf="showChart">
+        <div class="col-12">
+
+          <div style="display: block;" class="chart">
+              <canvas baseChart
+
+                      [datasets]="labelMFL"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [chartType]="ChartType"
+                      (chartHover)="chartHovered($event)"
+                      (chartClick)="chartClicked($event)"></canvas>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<!--Edit Modal-->
+<div style="z-index: 2001;" class="modal fade" id="editTime">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Advertisement Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="showEditModal">
+          <div class="modal-container">
+            <div class="form-row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-sx-12">
+               <label for="ApplicantAddress">Week Day</label>
+               <input type="text" id="ApplicantAddress" class="form-control" [value]="dataToEdit.weekday" readonly>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-sx-6">
+                 <label for="ApplicantAddress">Opening Time</label>
+                 <input type="text" id="ApplicantAddress" class="form-control" [value]="dataToEdit.from_hour">
+                </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-sx-6">
+               <label for="ApplicantAddress">Clossing Time</label>
+               <input type="text" id="ApplicantAddress" class="form-control" [value]="dataToEdit.to_hour">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="Btn" (click)="OnSaveTime()" #adSaveButton>Save</button>
+          <button type="button" class="BtnClose" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <app-loader [loader]="isLoading"></app-loader>
