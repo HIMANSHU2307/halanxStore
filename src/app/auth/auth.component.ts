@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -18,6 +19,8 @@ export class AuthComponent implements OnInit {
 
   authData: UserDetail;
   authkey: any;
+  subscription1: Subscription;
+  subscription2: Subscription;
 
   constructor(private toastr: ToastrService, public router: Router, private authservice: AuthServiceService) { }
 
@@ -26,6 +29,7 @@ export class AuthComponent implements OnInit {
 
   AuthanticationLogin(authData) {
     debugger;
+    this.subscription1 =
     this.authservice.AuthenticationLogin(authData)
       .subscribe(data => {
         // console.log(JSON.parse(JSON.stringify(data)).key);
@@ -67,6 +71,7 @@ export class AuthComponent implements OnInit {
     let logoutkey = {
       key: this.authkey
     };
+    this.subscription2 =
     this.authservice.AuthanticationLogout(logoutkey)
       .subscribe(data => {
         console.log(JSON.parse(JSON.stringify(data)).detail);
@@ -74,5 +79,14 @@ export class AuthComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['login']);
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription1) {
+      this.subscription1.unsubscribe();
+    }
+    if (this.subscription2) {
+      this.subscription2.unsubscribe();
+    }
   }
 }

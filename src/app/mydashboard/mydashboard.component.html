@@ -105,18 +105,18 @@
             <div class="form-row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-sx-6">
                  <label for="ApplicantAddress">Opening Time</label>
-                 <input type="text" id="ApplicantAddress" class="form-control" [value]="dataToEdit.from_hour">
+                 <input type="time" name="usr_time" #oTime id="ApplicantAddress" class="form-control" [value]="dataToEdit.from_hour">
                 </div>
               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-sx-6">
                <label for="ApplicantAddress">Clossing Time</label>
-               <input type="text" id="ApplicantAddress" class="form-control" [value]="dataToEdit.to_hour">
+               <input type="time" name="usr_time" #cTime id="ApplicantAddress" class="form-control" [value]="dataToEdit.to_hour">
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="Btn" (click)="OnSaveTime()" #adSaveButton>Save</button>
-          <button type="button" class="BtnClose" data-dismiss="modal">Close</button>
+          <button type="button" class="BtnClose" data-dismiss="modal" #btnReset (click)="reset()">Close</button>
         </div>
       </div>
     </div>

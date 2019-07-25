@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { DataCollectionService } from './../service/data-collection.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { OpeningHours } from '../modal/dataModal';
@@ -13,7 +13,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   templateUrl: './mydashboard.component.html',
   styleUrls: ['./mydashboard.component.css']
 })
-export class MydashboardComponent implements OnInit {
+export class MydashboardComponent implements OnInit, OnDestroy {
   openingHours: OpeningHours;
   isLoading: boolean = false;
   subscription1: Subscription;
@@ -26,6 +26,7 @@ export class MydashboardComponent implements OnInit {
   timeDetails: boolean = false;
   subscription2: Subscription;
   subscription3: Subscription;
+  subscription4: Subscription;
   visitDetails: any;
 
   // data
@@ -34,18 +35,13 @@ export class MydashboardComponent implements OnInit {
   lineChartLabels: Array<any>;
   public SystemName: string = "Visits";
 
-  // data
-  // public lineChartData: Array<number> = [ 1,8,49];
-
-  // public labelMFL: Array<any> = [
-  //     { data: this.lineChartData,
-  //       label: this.SystemName
-  //     }
-  // ];
-  // // labels
-  // public lineChartLabels: Array<any> = ["2018-01-29 10:00:00", "2018-01-29 10:27:00", "2018-01-29 10:28:00"];
   showChart: boolean = false;
   maxLabel = 50;
+
+  @ViewChild('oTime') oTime: ElementRef;
+  @ViewChild('cTime') cTime: ElementRef;
+  @ViewChild('btnReset') btnReset: ElementRef;
+  dataToPatch = [];
 
   constructor(private toastr: ToastrService, public router: Router, private datacollectionservice: DataCollectionService) { }
 
@@ -83,12 +79,12 @@ export class MydashboardComponent implements OnInit {
   };
 
    _lineChartColors: Array<any> = [{
-       backgroundColor: 'red',
-        borderColor: 'red',
-        pointBackgroundColor: 'red',
-        pointBorderColor: 'red',
-        pointHoverBackgroundColor: 'red',
-        pointHoverBorderColor: 'red'
+       backgroundColor: 'rgba(194,24,75,0.2)',
+        borderColor: 'rgba(194,24,75,0.2)',
+        pointBackgroundColor: 'rgba(194,24,75,0.2)',
+        pointBorderColor: 'rgba(194,24,75,0.2)',
+        pointHoverBackgroundColor: 'rgba(194,24,75,0.2)',
+        pointHoverBorderColor: 'rgba(194,24,75,0.2)'
       }];
 
 
@@ -243,6 +239,31 @@ export class MydashboardComponent implements OnInit {
         });
   }
 
+  Updateopeninghoursofplace(edit) {
+    this.isLoading = true;
+    this.subscription4 =
+    this.datacollectionservice.Updateopeninghoursofplace(edit)
+      .subscribe(data => {
+        console.log(JSON.parse(JSON.stringify(data)));
+        this.btnReset.nativeElement.click();
+        this.isLoading = false;
+        this.toastr.success("Record Updated Successfully.");
+      },
+        (err: HttpErrorResponse) => {
+          // debugger;
+          if (err.status == 401) {
+            this.router.navigated = false;
+            this.router.navigate(['login']);
+            localStorage.clear();
+            return null;
+          } else if (err.status == 404) {
+            this.toastr.info('No record found.', 'Oops');
+          } else {
+            this.toastr.error(err.error.Message, 'Oops');
+          }
+          this.isLoading = false;
+        });
+  }
 
 
   edittime(data) {
@@ -256,7 +277,27 @@ export class MydashboardComponent implements OnInit {
   }
 
   OnSaveTime() {
-
+    debugger;
+    let toEdit = false;
+    if (this.oTime.nativeElement.value && this.cTime.nativeElement.value) {
+      if (this.oTime.nativeElement.value != this.dataToEdit.from_hour) {
+        this.dataToEdit.from_hour = '';
+        this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
+        toEdit = true;
+      }
+      if (this.cTime.nativeElement.value != this.dataToEdit.from_hour) {
+        this.dataToEdit.from_hour = '';
+        this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
+        toEdit = true;
+      }
+      console.log(this.dataToEdit);
+      if (toEdit) {
+        this.dataToPatch.push(this.dataToEdit);
+      this.Updateopeninghoursofplace( this.dataToPatch);
+      } else {
+        this.btnReset.nativeElement.click();
+      }
+    }
   }
 
   searchVisitdata(fromDate, toDate) {
@@ -277,5 +318,23 @@ export class MydashboardComponent implements OnInit {
     }
   }
 
+  reset() {
+
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription1) {
+      this.subscription1.unsubscribe();
+    }
+    if (this.subscription2) {
+      this.subscription2.unsubscribe();
+    }
+    if (this.subscription3) {
+      this.subscription3.unsubscribe();
+    }
+    if (this.subscription4) {
+      this.subscription4.unsubscribe();
+    }
+  }
 
 }
