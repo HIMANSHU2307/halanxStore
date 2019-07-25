@@ -92,12 +92,13 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   public ChartType = 'bar';
 
   public chartClicked(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
   public chartHovered(e: any): void {
-    console.log(e);
+    // console.log(e);
   }
   ngOnInit() {
+    // debugger;
     let currentUser = localStorage.getItem('UserID');
     if (currentUser) {
       this.Getplaceopeninghours();
@@ -116,7 +117,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         this.openingHours = JSON.parse(JSON.stringify(data));
-        console.log(this.openingHours);
+        // console.log(this.openingHours);
         this.timeDetails = true;
         this.isLoading = false;
       },
@@ -143,7 +144,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
       .subscribe(data => {
 
         this.shopDetails = JSON.parse(JSON.stringify(data));
-        console.log(this.shopDetails);
+        // console.log(this.shopDetails);
         this.showStoreDetails = true;
         this.isLoading = false;
       },
@@ -172,9 +173,9 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     this.subscription3 =
     this.datacollectionservice.StoreDashboardVisitsplot(query)
       .subscribe(data => {
-        debugger;
+        // debugger;
         this.visitDetails = JSON.parse(JSON.stringify(data));
-        console.log(this.visitDetails.visits, "storedetails");
+       // console.log(this.visitDetails.visits, "storedetails");
         for (let i = 0; i < this.visitDetails.visits.length; i++) {
           this.lineChartData.push(this.visitDetails.visits[i].count);
           this.lineChartLabels.push(this.visitDetails.visits[i].date);
@@ -244,7 +245,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     this.subscription4 =
     this.datacollectionservice.Updateopeninghoursofplace(edit)
       .subscribe(data => {
-        console.log(JSON.parse(JSON.stringify(data)));
+        // console.log(JSON.parse(JSON.stringify(data)));
         this.btnReset.nativeElement.click();
         this.isLoading = false;
         this.toastr.success("Record Updated Successfully.");
@@ -270,14 +271,14 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     this.dataToEdit = data;
     this.timeFromSplit = this.dataToEdit.from_hour.split(":");
     this.timeToSplit = this.dataToEdit.to_hour.split(":");
-    console.log(this.dataToEdit);
+    // console.log(this.dataToEdit);
     if (this.dataToEdit) {
       this.showEditModal = true;
     }
   }
 
   OnSaveTime() {
-    debugger;
+    // debugger;
     let toEdit = false;
     if (this.oTime.nativeElement.value && this.cTime.nativeElement.value) {
       if (this.oTime.nativeElement.value != this.dataToEdit.from_hour) {
@@ -290,7 +291,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
         this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
         toEdit = true;
       }
-      console.log(this.dataToEdit);
+      // console.log(this.dataToEdit);
       if (toEdit) {
         this.dataToPatch.push(this.dataToEdit);
       this.Updateopeninghoursofplace( this.dataToPatch);
@@ -301,7 +302,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   }
 
   searchVisitdata(fromDate, toDate) {
-    debugger;
+    // debugger;
     let query = '';
     var oneDay = 24 * 60 * 60 * 1000;
     let fDate = new Date(fromDate.value);

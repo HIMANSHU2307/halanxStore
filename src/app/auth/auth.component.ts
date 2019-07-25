@@ -28,16 +28,18 @@ export class AuthComponent implements OnInit {
   }
 
   AuthanticationLogin(authData) {
-    debugger;
+    // debugger;
     this.subscription1 =
     this.authservice.AuthenticationLogin(authData)
       .subscribe(data => {
         // console.log(JSON.parse(JSON.stringify(data)).key);
+        // debugger;
         this.authkey = JSON.parse(JSON.stringify(data)).key;
         localStorage.setItem('userToken', this.authkey);
         // alert(this.authkey);
+        this.router.navigate(['mydashboard']);
       }, (err: HttpErrorResponse) => {
-        // debugger;
+         // debugger;
         this.isLoading = false;
         this.toastr.error('Username or password entered is wrong.');
         if (err.status == 401) {
@@ -54,13 +56,13 @@ export class AuthComponent implements OnInit {
 
 
   login() {
-    debugger;
+    // debugger;
     if (this.username) {
       this.authData = new UserDetail();
       this.authData.username = this.username;
       this.authData.password = this.password;
       this.AuthanticationLogin(this.authData);
-      this.router.navigate(['mydashboard']);
+
       localStorage.setItem('UserID', this.username);
     } else {
       this.toastr.error("Login credentials cannot be empty.");
@@ -74,7 +76,7 @@ export class AuthComponent implements OnInit {
     this.subscription2 =
     this.authservice.AuthanticationLogout(logoutkey)
       .subscribe(data => {
-        console.log(JSON.parse(JSON.stringify(data)).detail);
+        // console.log(JSON.parse(JSON.stringify(data)).detail);
         this.toastr.success(JSON.parse(JSON.stringify(data)).detail);
         localStorage.clear();
         this.router.navigate(['login']);

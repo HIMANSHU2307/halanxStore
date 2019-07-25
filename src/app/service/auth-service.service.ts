@@ -11,7 +11,7 @@ export class AuthServiceService {
 
   // login request
   AuthenticationLogin(userDetails: UserDetail) {
-    debugger;
+    // debugger;
     return this.http.post('http://testapi.halanx.com/rest-auth/login/', userDetails);
   }
 
