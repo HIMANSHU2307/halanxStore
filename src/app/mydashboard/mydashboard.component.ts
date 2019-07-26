@@ -274,6 +274,8 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     // console.log(this.dataToEdit);
     if (this.dataToEdit) {
       this.showEditModal = true;
+      this.oTime.nativeElement.value = data.from_hour;
+      this.cTime.nativeElement.value = data.to_hour;
     }
   }
 
@@ -320,7 +322,8 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-
+    this.oTime.nativeElement.value = '';
+    this.cTime.nativeElement.value = '';
   }
 
   ngOnDestroy(): void {
