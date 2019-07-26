@@ -36,6 +36,7 @@ export class AuthComponent implements OnInit {
         // debugger;
         this.authkey = JSON.parse(JSON.stringify(data)).key;
         localStorage.setItem('userToken', this.authkey);
+        localStorage.setItem('UserID', this.username);
         // alert(this.authkey);
         this.router.navigate(['mydashboard']);
       }, (err: HttpErrorResponse) => {
@@ -62,8 +63,6 @@ export class AuthComponent implements OnInit {
       this.authData.username = this.username;
       this.authData.password = this.password;
       this.AuthanticationLogin(this.authData);
-
-      localStorage.setItem('UserID', this.username);
     } else {
       this.toastr.error("Login credentials cannot be empty.");
     }

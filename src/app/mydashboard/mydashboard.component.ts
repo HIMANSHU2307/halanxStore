@@ -173,8 +173,14 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     this.subscription3 =
     this.datacollectionservice.StoreDashboardVisitsplot(query)
       .subscribe(data => {
-        // debugger;
+        debugger;
         this.visitDetails = JSON.parse(JSON.stringify(data));
+        if (this.visitDetails.visits.length == 0) {
+          this.showChart = false;
+          this.toastr.error("No record found.");
+        } else {
+          this.showChart = true;
+        }
        // console.log(this.visitDetails.visits, "storedetails");
         for (let i = 0; i < this.visitDetails.visits.length; i++) {
           this.lineChartData.push(this.visitDetails.visits[i].count);
@@ -219,7 +225,6 @@ export class MydashboardComponent implements OnInit, OnDestroy {
           },
 
         };
-        this.showChart = true;
         // this.showStoreDetails = true;
         this.isLoading = false;
       },
@@ -304,20 +309,22 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   }
 
   searchVisitdata(fromDate, toDate) {
-    // debugger;
     let query = '';
-    var oneDay = 24 * 60 * 60 * 1000;
-    let fDate = new Date(fromDate.value);
-    let tDate = new Date(toDate.value);
-    let diffDays = Math.round((tDate.getTime() - fDate.getTime()) / (oneDay));
-    if (diffDays <= 0) {
-      // this.diffDays = 0;
-      this.toastr.error("From date to be less than To Date");
-    } else {
-      if (fromDate.value && toDate.value) {
-          query = "from_date=" + fromDate.value + "&" +  "to_date=" + toDate.value;
+
+    if (fromDate.value && toDate.value) {
+      var oneDay = 24 * 60 * 60 * 1000;
+      let fDate = new Date(fromDate.value);
+      let tDate = new Date(toDate.value);
+      let diffDays = Math.round((tDate.getTime() - fDate.getTime()) / (oneDay));
+      if (diffDays <= 0) {
+        // this.diffDays = 0;
+        this.toastr.error("The To date must be greater than the From date.");
+      } else {
+          query = "from_date=" + fromDate.value + "&" + "to_date=" + toDate.value;
           this.StoreDashboardVisitsplot(query);
-      }
+        }
+    } else {
+      this.toastr.error("Date format is incorrect.");
     }
   }
 

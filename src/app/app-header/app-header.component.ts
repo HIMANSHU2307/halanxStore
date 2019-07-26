@@ -31,7 +31,7 @@ export class AppHeaderComponent implements OnInit {
     };
     this.authservice.AuthanticationLogout(logoutkey)
       .subscribe(data => {
-        console.log(JSON.parse(JSON.stringify(data)).detail);
+        // console.log(JSON.parse(JSON.stringify(data)).detail);
         this.toastr.success(JSON.parse(JSON.stringify(data)).detail);
         localStorage.clear();
         this.router.navigate(['login']);
