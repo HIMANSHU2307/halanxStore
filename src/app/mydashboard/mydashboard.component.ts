@@ -19,8 +19,6 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   subscription1: Subscription;
   dataToEdit: any;
   showEditModal: boolean = false;
-  timeToSplit: any;
-  timeFromSplit: any;
   shopDetails: any;
   showStoreDetails: boolean = false;
   timeDetails: boolean = false;
@@ -42,6 +40,9 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   @ViewChild('cTime') cTime: ElementRef;
   @ViewChild('btnReset') btnReset: ElementRef;
   dataToPatch = [];
+  weekdayFill: string = '';
+  from_hourFill: string = '';
+  to_hourFill: string = '';
 
   constructor(private toastr: ToastrService, public router: Router, private datacollectionservice: DataCollectionService) { }
 
@@ -168,12 +169,12 @@ export class MydashboardComponent implements OnInit, OnDestroy {
     this.showChart = false;
     this.lineChartData = [];
     this.labelMFL = [];
-    this.lineChartLabels = []
+    this.lineChartLabels = [];
     this.isLoading = true;
     this.subscription3 =
     this.datacollectionservice.StoreDashboardVisitsplot(query)
       .subscribe(data => {
-        debugger;
+        // debugger;
         this.visitDetails = JSON.parse(JSON.stringify(data));
         if (this.visitDetails.visits.length == 0) {
           this.showChart = false;
@@ -273,37 +274,42 @@ export class MydashboardComponent implements OnInit, OnDestroy {
 
 
   edittime(data) {
+    this.showEditModal = true;
     this.dataToEdit = data;
-    this.timeFromSplit = this.dataToEdit.from_hour.split(":");
-    this.timeToSplit = this.dataToEdit.to_hour.split(":");
+    this.weekdayFill = this.dataToEdit.weekday;
+    this.from_hourFill = this.dataToEdit.from_hour;
+    this.to_hourFill = this.dataToEdit.to_hour;
     // console.log(this.dataToEdit);
     if (this.dataToEdit) {
-      this.showEditModal = true;
       this.oTime.nativeElement.value = data.from_hour;
       this.cTime.nativeElement.value = data.to_hour;
     }
   }
 
   OnSaveTime() {
-    // debugger;
+    debugger;
     let toEdit = false;
     if (this.oTime.nativeElement.value && this.cTime.nativeElement.value) {
-      if (this.oTime.nativeElement.value != this.dataToEdit.from_hour) {
-        this.dataToEdit.from_hour = '';
-        this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
-        toEdit = true;
-      }
-      if (this.cTime.nativeElement.value != this.dataToEdit.from_hour) {
-        this.dataToEdit.from_hour = '';
-        this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
-        toEdit = true;
-      }
-      // console.log(this.dataToEdit);
-      if (toEdit) {
-        this.dataToPatch.push(this.dataToEdit);
-      this.Updateopeninghoursofplace( this.dataToPatch);
+      if (this.oTime.nativeElement.value >= this.cTime.nativeElement.value) {
+        this.toastr.error("Opening Time cannot be equal to or greater than Clossing Time");
       } else {
-        this.btnReset.nativeElement.click();
+        if (this.oTime.nativeElement.value != this.dataToEdit.from_hour) {
+          this.dataToEdit.from_hour = '';
+          this.dataToEdit.from_hour = this.oTime.nativeElement.value + ":00";
+          toEdit = true;
+        }
+        if (this.cTime.nativeElement.value != this.dataToEdit.to_hour) {
+          this.dataToEdit.to_hour = '';
+          this.dataToEdit.to_hour = this.cTime.nativeElement.value + ":00";
+          toEdit = true;
+        }
+        // console.log(this.dataToEdit);
+        if (toEdit) {
+          this.dataToPatch.push(this.dataToEdit);
+          this.Updateopeninghoursofplace(this.dataToPatch);
+        } else {
+          this.btnReset.nativeElement.click();
+        }
       }
     }
   }

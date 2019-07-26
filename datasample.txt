@@ -8,3 +8,12 @@ Getplaceopeninghours:
       5: {id: 6, weekday: "Saturday", from_hour: "10:00:00", to_hour: "22:00:00", place: 1}
       6: {id: 7, weekday: "Sunday", from_hour: "10:00:00", to_hour: "21:00:00", place: 1}
 
+
+git add .
+git commit
+git push
+
+
+git add .
+git commit -m "<Project name at Heroku>"
+git push heroku master

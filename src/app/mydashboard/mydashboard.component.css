@@ -24,3 +24,13 @@
   padding-right: 5px;
 }
 
+.searchIcon {
+  margin-top: 35px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 764px) {
+  .searchIcon {
+  margin-top: 5px;
+}
+}
