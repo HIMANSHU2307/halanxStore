@@ -287,7 +287,7 @@ export class MydashboardComponent implements OnInit, OnDestroy {
   }
 
   OnSaveTime() {
-    debugger;
+    // debugger;
     let toEdit = false;
     if (this.oTime.nativeElement.value && this.cTime.nativeElement.value) {
       if (this.oTime.nativeElement.value >= this.cTime.nativeElement.value) {
