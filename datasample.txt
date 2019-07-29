@@ -13,7 +13,11 @@ git add .
 git commit
 git push
 
-
+To deploy project on heroku
+https://www.youtube.com/watch?v=0bOJjAUXjhI
+git init
+heroku login
+heroku
 git add .
 git commit -m "<Project name at Heroku>"
 git push heroku master
